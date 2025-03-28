@@ -26,7 +26,7 @@ $resources = $resourceController->getAllResources();
                 </div>
             </div>
             <div class="card__footer">
-                <p class="card__footer-title">Design Tools</p>
+                <p class="card__footer-title"><?= $resource['category_name']; ?></p>
                 <a class="card__footer-link" href="/">
                     <img src="./assets/img/icons/share.svg" alt="">
                 </a>

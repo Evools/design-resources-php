@@ -1,0 +1,22 @@
+# Игнорируем зависимости Composer
+vendor/
+composer.lock
+
+# Кеш и временные файлы
+storage/
+bootstrap/cache/
+
+# Файлы конфигурации и среды
+.env
+.env.example
+
+# Логи
+*.log
+logs/
+
+# IDE файлы (VSCode, PhpStorm)
+.idea/
+.vscode/
+
+# Кеш NPM/Node.js
+node_modules/

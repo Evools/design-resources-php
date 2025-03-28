@@ -1,48 +1,15 @@
 <?php
 
-$jobs_listings = [
-    [
-        "img" => "/assets/img/companies/workos.png",
-        'company' => 'WorkOS',
-        'title' => 'Experienced Product Designer',
-        'location' => 'Remote',
-        'date' => '270 days ago',
-        "link" => "/jobs/1"
-    ],
-    [
-        "img" => "/assets/img/companies/CoinTracker.png",
-        'company' => 'CoinTracker',
-        'title' => 'Staff Product Designer',
-        'location' => 'Remote',
-        'date' => '270 days ago',
-        "link" => "/jobs/2"
-    ],
-    [
-        "img" => "/assets/img/companies/Metalab.png",
-        'company' => 'Metalab',
-        'title' => 'Staff Product Designer',
-        'location' => 'Remote',
-        'date' => '270 days ago',
-        "link" => "/jobs/3"
-    ],
-    [
-        "img" => "/assets/img/companies/Speakeasy.png",
-        'company' => 'Speakeasy',
-        'title' => 'Staff Product Designer',
-        'location' => 'Remote',
-        'date' => '270 days ago',
-        "link" => "/jobs/4"
-    ],
-    [
-        "img" => "/assets/img/companies/CopilotMoney.png",
-        'company' => 'Copilot Money',
-        'title' => 'Staff Product Designer',
-        'location' => 'Remote',
-        'date' => '270 days ago',
-        "link" => "/jobs/5"
-    ]
+require_once "config/db.php";
 
-]
+use App\Models\Jobs;
+use App\Controllers\JobsController;
+
+$jobsModel = new Jobs($conn);
+$jobsController = new JobsController($jobsModel);
+$jobs = $jobsController->getAllJobs();
+
+use Carbon\Carbon;
 
 ?>
 
@@ -67,22 +34,22 @@ $jobs_listings = [
             </div>
             <span>Posted Date</span>
         </div>
-        <?php foreach ($jobs_listings as $job): ?>
-            <a href="<?= $job['link'] ?>" class="jobs__link">
+        <?php foreach ($jobs as $job): ?>
+            <a href="/jobs/<?= $job['id'] ?>" class="jobs__link">
                 <div class="jobs__item">
                     <div class="jobs__item-company">
                         <div class="jobs__item-company-block">
-                            <img src="<?= $job['img'] ?>" alt="WorkOS">
+                            <img src="<?= $job['image'] ?>" alt="<?= $job['company'] ?>">
                             <span class="company-name"><?= $job['company'] ?></span>
                         </div>
                         <div class="jobs__item-info">
-                            <h3><?= $job['title'] ?></h3>
+                            <h3><?= $job['specialization'] ?></h3>
                             <div class="jobs__item-details">
-                                <span class="location"><?= $job['location'] ?></span>
+                                <span class="location"><?= $job['country'] ?></span>
                             </div>
                         </div>
                     </div>
-                    <div class="jobs__item-date">270 days ago</div>
+                    <div class="jobs__item-date"><?= Carbon::parse($job['created_at'])->diffForHumans(); ?></div>
                 </div>
             </a>
         <?php endforeach; ?>
