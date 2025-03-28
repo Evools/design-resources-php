@@ -2,7 +2,10 @@
     "name": "app/design-resources",
     "autoload": {
         "psr-4": {
-            "App\\": "app/"
+            "App\\": "app/",
+            "App\\Services\\": "app/Services/",
+            "App\\Repositories\\": "app/Repositories/",
+            "App\\Middleware\\": "app/Middleware/"
         }
     },
     "authors": [
