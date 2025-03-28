@@ -1,18 +1,3 @@
-<?php
-
-require_once "config/db.php";
-
-use App\Models\Jobs;
-use App\Controllers\JobsController;
-
-$jobsModel = new Jobs($conn);
-$jobsController = new JobsController($jobsModel);
-$jobs = $jobsController->getAllJobs();
-
-use Carbon\Carbon;
-
-?>
-
 <?php $titleName = "Jobs"; ?>
 <?php require_once "./layout/header.php"; ?>
 <?php require_once "./layout/nav.php"; ?>
@@ -27,34 +12,10 @@ use Carbon\Carbon;
         </div>
     </div>
     <div class="jobs__listings">
-        <div class="jobs__header">
-            <div class="jobs__header-left">
-                <span>Company</span>
-                <span>Position</span>
-            </div>
-            <span>Posted Date</span>
-        </div>
-        <?php foreach ($jobs as $job): ?>
-            <a href="/jobs/<?= $job['id'] ?>" class="jobs__link">
-                <div class="jobs__item">
-                    <div class="jobs__item-company">
-                        <div class="jobs__item-company-block">
-                            <img src="<?= $job['image'] ?>" alt="<?= $job['company'] ?>">
-                            <span class="company-name"><?= $job['company'] ?></span>
-                        </div>
-                        <div class="jobs__item-info">
-                            <h3><?= $job['specialization'] ?></h3>
-                            <div class="jobs__item-details">
-                                <span class="location"><?= $job['country'] ?></span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="jobs__item-date"><?= Carbon::parse($job['created_at'])->diffForHumans(); ?></div>
-                </div>
-            </a>
-        <?php endforeach; ?>
-
+        <!-- Контент будет загружен через JavaScript -->
+        <div class="jobs__loading">Loading...</div>
     </div>
 </div>
 
+<script src="/assets/js/components/JobsList.js"></script>
 <?php require_once "./layout/footer.php"; ?>
