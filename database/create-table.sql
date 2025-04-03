@@ -70,3 +70,51 @@ CREATE TABLE IF NOT EXISTS inspiration_job (
     FOREIGN KEY (job_id) REFERENCES jobs(id) ON DELETE CASCADE,
     PRIMARY KEY (inspiration_id, job_id)
 );
+
+-- Заполнение таблицы категорий
+INSERT INTO category (name, slug) VALUES 
+('Web Development', 'web-development'),
+('Graphic Design', 'graphic-design'),
+('Data Science', 'data-science'),
+('Marketing', 'marketing');
+
+-- Заполнение таблицы ресурсов
+INSERT INTO resources (image, link, title, content, category_id) VALUES
+('resource1.jpg', 'https://example.com/web-dev', 'Web Dev Guide', 'A complete guide to web development', 1),
+('resource2.jpg', 'https://example.com/design', 'Design Basics', 'Fundamentals of graphic design', 2),
+('resource3.jpg', 'https://example.com/data-science', 'Data Science Handbook', 'Comprehensive data science book', 3),
+('resource4.jpg', 'https://example.com/marketing', 'Marketing Strategies', 'Advanced digital marketing strategies', 4);
+
+
+-- Заполнение таблицы типов работы
+INSERT INTO job_type (name) VALUES 
+('Full-time'),
+('Part-time'),
+('Remote'),
+('Contract'),
+('Freelance'),
+('Internship'),
+('Competitive salary');
+
+-- Заполнение таблицы вакансий
+INSERT INTO jobs (image, company, specialization, country, salary, salary_numeric) VALUES
+('company1.jpg', 'TechCorp', 'Backend Developer', 'USA', '2000$', 2000),
+('company2.jpg', 'DesignStudio', 'UI/UX Designer', 'Germany', 'Договорная', NULL),
+('company3.jpg', 'DataSolutions', 'Data Analyst', 'UK', '1500$', 1500),
+('company4.jpg', 'CyberSecurity Inc.', 'Security Specialist', 'Canada', 'Competitive salary', NULL);
+
+-- Связь вакансий с типами работы
+INSERT INTO job_job_type (job_id, job_type_id) VALUES
+(1, 1), -- Full-time
+(1, 3), -- Remote
+(2, 5), -- Freelance
+(3, 2), -- Part-time
+(4, 1), -- Full-time
+(4, 7); -- Competitive salary
+
+-- Заполнение таблицы Inspiration
+INSERT INTO inspiration (title, company, image, job_id) 
+VALUES 
+('Прорывная идея', 'StartupPro', 'breakthrough.jpg', 3),
+('Революционный дизайн', 'DesignLab', 'revolution.jpg', 4),
+('Автоматизация процессов', 'TechSolution', 'automation.jpg', 5);
