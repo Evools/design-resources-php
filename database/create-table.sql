@@ -52,51 +52,21 @@ CREATE TABLE IF NOT EXISTS job_job_type (
 
 -- Создание таблицы Inspiration
 CREATE TABLE IF NOT EXISTS inspiration (
-    id INT(11) AUTO_INCREMENT PRIMARY KEY,
+    id INT AUTO_INCREMENT PRIMARY KEY,
     title VARCHAR(255) NOT NULL,
     company VARCHAR(255) NOT NULL,
     image VARCHAR(255) NOT NULL,
+    job_id INT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-)
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (job_id) REFERENCES jobs(id) ON DELETE CASCADE
+);
 
--- Заполнение таблицы категорий
-INSERT INTO category (name, slug) VALUES 
-('Web Development', 'web-development'),
-('Graphic Design', 'graphic-design'),
-('Data Science', 'data-science'),
-('Marketing', 'marketing');
-
--- Заполнение таблицы ресурсов
-INSERT INTO resources (image, link, title, content, category_id) VALUES
-('resource1.jpg', 'https://example.com/web-dev', 'Web Dev Guide', 'A complete guide to web development', 1),
-('resource2.jpg', 'https://example.com/design', 'Design Basics', 'Fundamentals of graphic design', 2),
-('resource3.jpg', 'https://example.com/data-science', 'Data Science Handbook', 'Comprehensive data science book', 3),
-('resource4.jpg', 'https://example.com/marketing', 'Marketing Strategies', 'Advanced digital marketing strategies', 4);
-
-
--- Заполнение таблицы типов работы
-INSERT INTO job_type (name) VALUES 
-('Full-time'),
-('Part-time'),
-('Remote'),
-('Contract'),
-('Freelance'),
-('Internship'),
-('Competitive salary');
-
--- Заполнение таблицы вакансий
-INSERT INTO jobs (image, company, specialization, country, salary, salary_numeric) VALUES
-('company1.jpg', 'TechCorp', 'Backend Developer', 'USA', '2000$', 2000),
-('company2.jpg', 'DesignStudio', 'UI/UX Designer', 'Germany', 'Договорная', NULL),
-('company3.jpg', 'DataSolutions', 'Data Analyst', 'UK', '1500$', 1500),
-('company4.jpg', 'CyberSecurity Inc.', 'Security Specialist', 'Canada', 'Competitive salary', NULL);
-
--- Связь вакансий с типами работы
-INSERT INTO job_job_type (job_id, job_type_id) VALUES
-(1, 1), -- Full-time
-(1, 3), -- Remote
-(2, 5), -- Freelance
-(3, 2), -- Part-time
-(4, 1), -- Full-time
-(4, 7); -- Competitive salary
+-- Промежуточная таблица для связи Inspiration и Jobs (многие ко многим)
+CREATE TABLE IF NOT EXISTS inspiration_job (
+    inspiration_id INT NOT NULL,
+    job_id INT NOT NULL,
+    FOREIGN KEY (inspiration_id) REFERENCES inspiration(id) ON DELETE CASCADE,
+    FOREIGN KEY (job_id) REFERENCES jobs(id) ON DELETE CASCADE,
+    PRIMARY KEY (inspiration_id, job_id)
+);
