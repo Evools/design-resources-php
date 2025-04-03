@@ -50,6 +50,16 @@ CREATE TABLE IF NOT EXISTS job_job_type (
     PRIMARY KEY (job_id, job_type_id)
 );
 
+-- Создание таблицы Inspiration
+CREATE TABLE IF NOT EXISTS inspiration (
+    id INT(11) AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    company VARCHAR(255) NOT NULL,
+    image VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+)
+
 -- Заполнение таблицы категорий
 INSERT INTO category (name, slug) VALUES 
 ('Web Development', 'web-development'),
