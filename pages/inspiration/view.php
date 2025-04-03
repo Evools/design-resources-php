@@ -1,10 +1,27 @@
+<?php
+require_once "config/db.php";
+
+use App\Controllers\InspirationController;
+use App\Models\Inspiration;
+
+$inspirationsModel = new Inspiration($conn);
+$inspirationsController = new InspirationController($inspirationsModel);
+$inspirations = $inspirationsController->getAll();
+
+// foreach ($inspirations as $inspiration) {
+//   dump($inspiration);
+// }
+
+
+?>
+
 <?php $titleName = "Inspiration"; ?>
 <?php require_once "./layout/header.php"; ?>
 <?php require_once "./layout/nav.php"; ?>
 
 <div class="container">
   <div class="inspiration">
-    <div class="inspiration__grid">
+    <!-- <div class="inspiration__grid">
       <a href="/inspiration/1" class="inspiration__item">
         <div class="inspiration__image">
           <img src="/assets/img/inspiration/inspiration-1.png" alt="Brand Visionaries 2024">
@@ -45,7 +62,22 @@
         </div>
       </a>
 
+    </div> -->
+
+    <div class="inspiration__grid">
+      <?php foreach ($inspirations as $inspiration): ?>
+        <a href="/inspiration/<?= $inspiration['id']; ?>" class="inspiration__item">
+          <div class="inspiration__image">
+            <img src="<?= $inspiration['image']; ?>" alt="<?= $inspiration['title']; ?>">
+          </div>
+          <div class="inspiration__info">
+            <h3 class="inspiration__title"><?= $inspiration['title']; ?></h3>
+            <span class="inspiration__type"><?= $inspiration['company']; ?></span>
+          </div>
+        </a>
+      <?php endforeach; ?>
     </div>
+
   </div>
 </div>
 
