@@ -1,3 +1,22 @@
+<?php
+
+require_once "config/db.php";
+
+use App\Controllers\InspirationController;
+use App\Models\Inspiration;
+use Carbon\Carbon;
+
+$inspirationsModel = new Inspiration($conn);
+$inspirationsController = new InspirationController($inspirationsModel);
+
+if (isset($_GET['id']) && is_numeric($_GET['id'])) {
+  $id = $_GET['id'];
+}
+
+$inspiration = $inspirationsController->getById($id);
+
+?>
+
 <?php $titleName = "Inspiration"; ?>
 <?php require_once "./layout/header.php"; ?>
 <?php require_once "./layout/nav.php"; ?>
@@ -5,7 +24,7 @@
 <div class="container">
   <div class="inspiration-inner">
     <div class="inspiration-inner__header">
-      <h1 class="inspiration-inner__title">Brand Visionaries 2024</h1>
+      <h1 class="inspiration-inner__title"><?= $inspiration['title']; ?></h1>
       <a href="#" class="btn btn-primary inspiration-inner__btn">
         Visit website
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
@@ -15,12 +34,12 @@
     </div>
 
     <div class="inspiration-inner__image">
-      <img src="/assets/img/inspiration/inspiration-1.png" alt="Geist Typeface">
+      <img src="<?= $inspiration['image']; ?>" alt="Geist Typeface">
     </div>
 
     <div class="inspiration-inner__content">
       <p class="inspiration-inner__description">
-        Geist is a typeface made for developers and designers, embodying Vercel's design principles of simplicity, minimalism, and speed.
+        <?= $inspiration['content']; ?>
       </p>
 
       <div class="inspiration-inner__meta">
@@ -30,7 +49,7 @@
         </div>
         <div class="inspiration-inner__meta-item">
           <span class="inspiration-inner__meta-label">Published at</span>
-          <span class="inspiration-inner__meta-value">31st March 2024</span>
+          <span class="inspiration-inner__meta-value"><?= Carbon::parse(time: $inspiration['created_at'])->diffForHumans(); ?></span>
         </div>
         <a href="#" class="inspiration-inner__meta-link">Broken Link?</a>
       </div>

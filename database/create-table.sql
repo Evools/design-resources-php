@@ -50,6 +50,27 @@ CREATE TABLE IF NOT EXISTS job_job_type (
     PRIMARY KEY (job_id, job_type_id)
 );
 
+-- Создание таблицы Inspiration
+CREATE TABLE IF NOT EXISTS inspiration (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    company VARCHAR(255) NOT NULL,
+    image VARCHAR(255) NOT NULL,
+    job_id INT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (job_id) REFERENCES jobs(id) ON DELETE CASCADE
+);
+
+-- Промежуточная таблица для связи Inspiration и Jobs (многие ко многим)
+CREATE TABLE IF NOT EXISTS inspiration_job (
+    inspiration_id INT NOT NULL,
+    job_id INT NOT NULL,
+    FOREIGN KEY (inspiration_id) REFERENCES inspiration(id) ON DELETE CASCADE,
+    FOREIGN KEY (job_id) REFERENCES jobs(id) ON DELETE CASCADE,
+    PRIMARY KEY (inspiration_id, job_id)
+);
+
 -- Заполнение таблицы категорий
 INSERT INTO category (name, slug) VALUES 
 ('Web Development', 'web-development'),
@@ -90,3 +111,10 @@ INSERT INTO job_job_type (job_id, job_type_id) VALUES
 (3, 2), -- Part-time
 (4, 1), -- Full-time
 (4, 7); -- Competitive salary
+
+-- Заполнение таблицы Inspiration
+INSERT INTO inspiration (title, company, image, job_id) 
+VALUES 
+('Прорывная идея', 'StartupPro', 'breakthrough.jpg', 3),
+('Революционный дизайн', 'DesignLab', 'revolution.jpg', 4),
+('Автоматизация процессов', 'TechSolution', 'automation.jpg', 5);

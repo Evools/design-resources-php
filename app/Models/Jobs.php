@@ -15,10 +15,29 @@ class Jobs
 
   public function getAll(): array
   {
-    $sql = "SELECT * FROM jobs";
+    $sql = "SELECT * FROM jobs ORDER BY created_at DESC";
     $stmt = $this->conn->prepare($sql);
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_ASSOC) ?: [];
+  }
+
+  public function getPaginated(int $offset, int $limit): array
+  {
+    $sql = "SELECT * FROM jobs ORDER BY created_at DESC LIMIT :limit OFFSET :offset";
+    $stmt = $this->conn->prepare($sql);
+    $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+    $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC) ?: [];
+  }
+
+  public function getTotal(): int
+  {
+    $sql = "SELECT COUNT(*) as total FROM jobs";
+    $stmt = $this->conn->prepare($sql);
+    $stmt->execute();
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    return (int)($result['total'] ?? 0);
   }
 
   public function getById(int $id): array
